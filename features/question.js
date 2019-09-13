@@ -34,6 +34,7 @@ If you give up just type \`answer\`.`);
         if (threadId != null && threadId in questionCache) {
             const guess = message.text.toLowerCase();
             const answer = questionCache[threadId];
+            console.log(guess, answer, guess == answer.toLowerCase());
             await bot.startConversationInThread(message.channel, 'fake', threadId);
             if (guess == 'answer') {
                 bot.say(answer);
