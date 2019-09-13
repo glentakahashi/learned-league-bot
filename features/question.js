@@ -39,10 +39,18 @@ If you give up just type \`answer\`.`);
                 await bot.say(answer);
                 delete questionCache[threadId];
             } else if (guess == answer.toLowerCase()) {
-                await bot.say("Correct! :white_check_mark:");
+                await bot.api.reactions.add({
+                    timestamp: message.ts,
+                    channel: message.channel,
+                    name: 'white_check_mark',
+                });
                 delete questionCache[threadId];
             } else {
-                bot.say(":x:");
+                await bot.api.reactions.add({
+                    timestamp: message.ts,
+                    channel: message.channel,
+                    name: 'x',
+                });
             }
         }
     });
