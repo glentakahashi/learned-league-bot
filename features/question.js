@@ -96,6 +96,11 @@ Type \`category\` to get the category and \`answer\` to get the answer.`);
                 await bot.say(answer);
                 delete questionCache[threadId];
             } else if (guess == exactAnswer) {
+                await bot.api.reactions.add({
+                    timestamp: message.ts,
+                    channel: message.channel,
+                    name: 'white_check_mark',
+                });
                 await bot.say(answer);
                 delete questionCache[threadId];
             } else if (answers.includes(guess)) {
