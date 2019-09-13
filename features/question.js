@@ -23,7 +23,7 @@ module.exports = function(controller) {
         const questionMessage = await bot.say(fixed);
         const threadId = questionMessage.id;
         await bot.startConversationInThread(message.channel, 'fake', threadId);
-        questionCache[threadId] = answer;
+        questionCache[threadId] = answer.trim();
         await bot.say(`${pct}% of people on Learned Leaggue got this question correct`);
         await bot.say(`Type your answers here and I will do my best to try and determine if it's correct.
 _(I may not parse answers properly if there are multiple choices)_
@@ -32,9 +32,8 @@ If you give up just type \`answer\`.`);
     controller.on('message', async(bot, message) => {
         const threadId = message.thread_ts;
         if (threadId != null && threadId in questionCache) {
-            const guess = message.text.toLowerCase();
-            const answer = questionCache[threadId];
-            console.log(`'${guess}'`, `'${answer.toLowerCase()}'`, guess == answer.toLowerCase());
+            const guess = message.text.toLowerCase().trim();
+            const answer = questionCache[threadId].trim();
             await bot.startConversationInThread(message.channel, 'fake', threadId);
             if (guess == 'answer') {
                 await bot.say(answer);
