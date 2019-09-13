@@ -37,9 +37,11 @@ If you give up just type \`answer\`.`);
             console.log(guess, answer, guess == answer.toLowerCase());
             await bot.startConversationInThread(message.channel, 'fake', threadId);
             if (guess == 'answer') {
-                bot.say(answer);
+                await bot.say(answer);
+                delete questionCache[threadId];
             } else if (guess == answer.toLowerCase()) {
-                bot.say("Correct! :white_check_mark:");
+                await bot.say("Correct! :white_check_mark:");
+                delete questionCache[threadId];
             } else {
                 bot.say(":x:");
             }
