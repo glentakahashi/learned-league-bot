@@ -12,10 +12,17 @@ module.exports = function(controller) {
     controller.on('direct_mention', async(bot, message) => {
         const body = await request('https://learnedleague.com/samples.php');
         const $ = cheerio.load(body);
-        const qid = Math.floor(Math.random() * 15) + 2;
+        const text = message.text.toLowerCase();
+        let qid = Math.floor(Math.random() * 15) + 2;
+        if (text.includes("easy")) {
+            qid = Math.floor(Math.random() * 5) + 2;
+        } else if (text.includes("medium")) {
+            qid = Math.floor(Math.random() * 5) + 7;
+        } else if (text.includes("hard")) {
+            qid = Math.floor(Math.random() * 5) + 12;
+        }
         const question = $(`body > center > table > tbody > tr > td > div:nth-child(9) > table > tbody > tr:nth-child(${qid}) > td:nth-child(2)`).html();
         const pct = $(`body > center > table > tbody > tr > td > div:nth-child(9) > table > tbody > tr:nth-child(${qid}) > td:nth-child(4)`).text();
-        const id = $(`body > center > table > tbody > tr > td > div:nth-child(9) > table > tbody > tr:nth-child(${qid}) > td:nth-child(5)`).text();
         const answer = $(`#xyz${qid-1}`).text();
         const md = mrkdwn(question).text;
         const fixed = md.replace(/<([^|]*)\|[^>]*>/g, 'https://learnedleague.com$1');
@@ -28,6 +35,7 @@ module.exports = function(controller) {
         await bot.say(`Type your answers here and I will do my best to try and determine if it's correct.
 _(I may not parse answers properly if there are multiple choices)_
 If you give up just type \`answer\`.`);
+        setTimeout(() => delete questionCache[threadId], 7 * 24 * 60 * 60 * 1000); // delete after 1 week
     });
     controller.on('message', async(bot, message) => {
         const threadId = message.thread_ts;
