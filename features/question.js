@@ -24,7 +24,7 @@ module.exports = function(controller) {
         const threadId = questionMessage.id;
         await bot.startConversationInThread(message.channel, 'fake', threadId);
         questionCache[threadId] = answer.trim();
-        await bot.say(`${pct}% of people on Learned Leaggue got this question correct`);
+        await bot.say(`${pct}% of people on Learned League got this question correct`);
         await bot.say(`Type your answers here and I will do my best to try and determine if it's correct.
 _(I may not parse answers properly if there are multiple choices)_
 If you give up just type \`answer\`.`);
