@@ -35,7 +35,23 @@ If you give up just type \`answer\`.`);
             const guess = message.text.toLowerCase().trim();
             const answer = questionCache[threadId].trim();
             await bot.startConversationInThread(message.channel, 'fake', threadId);
-            if (guess == 'answer') {
+            if (guess == 'ziaur') {
+                await bot.api.reactions.add({
+                    timestamp: message.ts,
+                    channel: message.channel,
+                    name: 'ziaur1',
+                });
+                await bot.api.reactions.add({
+                    timestamp: message.ts,
+                    channel: message.channel,
+                    name: 'ziaur2',
+                });
+                await bot.api.reactions.add({
+                    timestamp: message.ts,
+                    channel: message.channel,
+                    name: 'ziaur3',
+                });
+            } else if (guess == 'answer') {
                 await bot.say(answer);
                 delete questionCache[threadId];
             } else if (guess == answer.toLowerCase()) {
