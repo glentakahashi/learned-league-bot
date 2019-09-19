@@ -49,12 +49,23 @@ module.exports = function(controller) {
         }
         const question = $(`body > center > table > tbody > tr > td > div:nth-child(9) > table > tbody > tr:nth-child(${qid}) > td:nth-child(2)`).html();
         const pct = $(`body > center > table > tbody > tr > td > div:nth-child(9) > table > tbody > tr:nth-child(${qid}) > td:nth-child(4)`).text();
-        const answer = $(`#xyz${qid-1}`).text().trim();
-        const answers = getPossibleAnswers(answer);
+        let answer = $(`#xyz${qid-1}`).text().trim();
+        let answers = getPossibleAnswers(answer);
         const md = mrkdwn(question).text;
         let fixed = md.replace(/<([^|]*)\|[^>]*>/g, 'https://learnedleague.com$1');
-        const category = fixed.substr(0, fixed.indexOf(' - '));
+        let category = fixed.substr(0, fixed.indexOf(' - '));
         fixed = fixed.substr(fixed.indexOf(' - ') + 3);
+        if (new Date() > new Date('10/9/2019') && Math.random()<0.005) {
+            fixed = "This person is the absolute worst. What is their first name?";
+            answer = "ZIA (ZIAUR)";
+            answers = getPossibleAnswers(answer);
+            category = "TRIALSPARK";
+        } else if (new Date() > new Date('10/8/2019') && Math.random()<0.005) {
+            fixed = "Known for his witty humor and overall great character, this person is literally perfect. What is their first name?";
+            answer = "GLEN (GLENATHAN)";
+            answers = getPossibleAnswers(answer);
+            category = "TRIALSPARK";
+        }
         console.log(fixed, answer, answers);
         await bot.startConversationInChannel(message.channel, 'fake');
         const questionMessage = await bot.say(fixed);
